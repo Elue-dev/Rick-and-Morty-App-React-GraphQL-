@@ -11,6 +11,9 @@ const GET_CHARACTER_LOCATIONS = gql`
             results {
             location {
                 name
+                residents{
+                    image
+                }
             }
           }
         }
@@ -21,7 +24,7 @@ export default function Search() {
 
     const [ name, setName ] = useState('')
 
-    const [ getLocations, { loading, error, data } ] = useLazyQuery(GET_CHARACTER_LOCATIONS, {
+    const [ getLocations, { loading, data } ] = useLazyQuery(GET_CHARACTER_LOCATIONS, {
         variables: {
             name
         }
@@ -45,7 +48,7 @@ export default function Search() {
             {data && (
                 <div>
                     {data && <h2>Locations:</h2>}
-                    {data?.characters?.results.map(({id, location: { name } }) => (
+                    {data?.characters?.results.map(({id, location: { name, residents } }) => (
                         <div key={id} className='character_location'>
                             &rarr; {name}
                         </div>
